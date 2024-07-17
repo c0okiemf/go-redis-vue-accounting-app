@@ -1,0 +1,142 @@
+basePath: /api/v1
+definitions:
+  main.ErrorResponse:
+    properties:
+      errors:
+        items:
+          type: string
+        type: array
+    type: object
+  main.InputValidationErrorResponse:
+    properties:
+      errors:
+        items:
+          $ref: '#/definitions/types.ValidationError'
+        type: array
+    type: object
+  main.TransactionResponse:
+    properties:
+      total:
+        type: integer
+      transactions:
+        items:
+          $ref: '#/definitions/types.Transaction'
+        type: array
+    type: object
+  types.Transaction:
+    properties:
+      accountName:
+        type: string
+      accountNumber:
+        type: string
+      address:
+        type: string
+      amount:
+        minimum: 1
+        type: integer
+      iban:
+        type: string
+      id:
+        type: string
+      transactionType:
+        $ref: '#/definitions/types.TransactionType'
+    required:
+    - accountNumber
+    - amount
+    - iban
+    type: object
+  types.TransactionInput:
+    properties:
+      accountName:
+        type: string
+      accountNumber:
+        type: string
+      address:
+        type: string
+      amount:
+        minimum: 1
+        type: integer
+      iban:
+        type: string
+      transactionType:
+        $ref: '#/definitions/types.TransactionType'
+    required:
+    - accountNumber
+    - amount
+    - iban
+    type: object
+  types.TransactionType:
+    enum:
+    - 0
+    - 1
+    type: integer
+    x-enum-varnames:
+    - TransactionTypeSent
+    - TransactionTypeReceived
+  types.ValidationError:
+    properties:
+      key:
+        type: string
+      reason:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /transaction:
+    post:
+      consumes:
+      - application/json
+      description: Add a new transaction
+      parameters:
+      - description: Transaction input
+        in: body
+        name: transaction
+        required: true
+        schema:
+          $ref: '#/definitions/types.TransactionInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.InputValidationErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+      summary: Add transaction
+      tags:
+      - transactions
+  /transactions:
+    get:
+      consumes:
+      - application/json
+      description: Get all transactions with pagination
+      parameters:
+      - description: Required page
+        in: query
+        name: page
+        type: integer
+      - description: Required per page
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.TransactionResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+      summary: Get transactions
+      tags:
+      - transactions
+swagger: "2.0"

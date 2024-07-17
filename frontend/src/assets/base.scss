@@ -1,0 +1,116 @@
+:root {
+  --vt-c-white: #ffffff;
+
+  --vt-c-black: #181818;
+
+  --vt-c-indigo: #2c3e50;
+
+  --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
+  --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
+  --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
+  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+
+  --vt-c-text-light-1: var(--vt-c-indigo);
+  --vt-c-text-dark-1: rgba(235, 235, 235, 0.64);
+  --vt-c-text-highligted-light: hsla(160, 100%, 37%, 1);
+  --vt-c-text-highligted-dark: hsla(160, 100%, 37%, 1);
+
+  --vt-c-background-highlighted-light: #3bdbc0;
+  --vt-c-background-highlighted-dark: #1b5858;
+  --vt-c-background-highlighted-text-light: #000;
+  --vt-c-background-highlighted-text-dark: #fff;
+
+  --vt-c-icon-active-light: #3bdbc0;
+  --vt-c-icon-active-dark: #1b5858;
+  --vt-c-icon-disabled-light: rgba(60, 60, 60, 0.29);
+  --vt-c-icon-disabled-dark: rgba(84, 84, 84, 0.65);
+
+  --vt-c-row-received-background-light: rgb(3, 221, 3);
+  --vt-c-row-received-background-dark: rgb(0, 83, 0);
+
+  --vt-c-panel-background-light: #e8e3e3;
+  --vt-c-panel-background-dark: #000000;
+}
+
+/* semantic color variables for this project */
+:root {
+  --desktop: 1024px;
+  --section-gap: 160px;
+
+  --color-background: var(--vt-c-white);
+
+  --color-border: var(--vt-c-divider-light-2);
+  --color-border-hover: var(--vt-c-divider-light-1);
+
+  --color-text: var(--vt-c-text-light-1);
+
+  --text-highlighted: var(--vt-c-text-highligted-light);
+
+  --background-highlighted: var(--vt-c-background-highlighted-light);
+  --background-highlighted-text: var(--vt-c-background-highlighted-text-light);
+
+  --icon-active: var(--vt-c-icon-active-light);
+  --icon-disabled: var(--vt-c-icon-disabled-light);
+
+  --background-row-received: var(--vt-c-row-received-background-light);
+
+  --panel-background: var(--vt-c-panel-background-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--vt-c-black);
+
+    --color-border: var(--vt-c-divider-dark-2);
+    --color-border-hover: var(--vt-c-divider-dark-1);
+
+    --color-text: var(--vt-c-text-dark-1);
+
+    --text-highlighted: var(--vt-c-text-highligted-dark);
+
+    --background-highlighted: var(--vt-c-background-highlighted-dark);
+    --background-highlighted-text: var(--vt-c-background-highlighted-text-dark);
+
+    --icon-active: var(--vt-c-icon-active-dark);
+    --icon-disabled: var(--vt-c-icon-disabled-dark);
+
+    --background-row-received: var(--vt-c-row-received-background-dark);
+
+    --panel-background: var(--vt-c-panel-background-dark);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-background);
+  transition:
+    color 0.5s,
+    background-color 0.5s;
+  line-height: 1.6;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
