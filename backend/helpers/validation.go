@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"accounting/types"
+	"os"
 	"reflect"
 
 	"github.com/go-playground/validator/v10"
@@ -29,4 +30,18 @@ func MakeAddTransactionUserFacingErrors(err error, account types.TransactionInpu
 		})
 	}
 	return userFacingErrors
+}
+
+func ListFiles(directory string) ([]string, error) {
+	files, err := os.ReadDir(directory)
+	if err != nil {
+		return nil, err
+	}
+
+	var fileNames []string
+	for _, file := range files {
+		fileNames = append(fileNames, file.Name())
+	}
+
+	return fileNames, nil
 }

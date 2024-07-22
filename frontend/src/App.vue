@@ -8,6 +8,7 @@ import { RouterLink, RouterView } from 'vue-router';
       <nav>
         <RouterLink to="/">Dashboard</RouterLink>
         <RouterLink to="/create">Record New Transaction</RouterLink>
+        <RouterLink to="/upload">Upload File</RouterLink>
       </nav>
     </header>
     <div class="page-wrapper">

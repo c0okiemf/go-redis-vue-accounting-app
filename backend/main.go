@@ -5,6 +5,7 @@ import (
 	_ "accounting/docs"
 	"accounting/helpers"
 	"accounting/types"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -115,7 +116,62 @@ func addTransaction(clientInstance *client.ImmuDBClient) func(*gin.Context) {
 	}
 }
 
-func main() {
+// @Summary Upload file
+// @Description Upload a file
+// @Tags upload
+// @Accept multipart/form-data
+// @Produce json
+// @Param file formData file true "File to upload"
+// @Success 200
+// @Failure 400 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /uploadFile [post]
+func uploadFile(c *gin.Context) {
+	file, err := c.FormFile("file")
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "File is required",
+		})
+		return
+	}
+
+	if err := c.SaveUploadedFile(file, "uploads/"+file.Filename); err != nil {
+		log.Println(err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Failed to save file",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "File uploaded successfully",
+	})
+}
+
+// @Summary List files
+// @Description List all files
+// @Tags upload
+// @Accept json
+// @Produce json
+// @Success 200 {object} gin.H
+// @Failure 500 {object} ErrorResponse
+// @Router /listFiles [get]
+func listFiles(c *gin.Context) {
+	files, err := helpers.ListFiles("uploads")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Failed to list files",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"files": files,
+	})
+}
+
+func MakeRouter() *gin.Engine {
 	helpers.LoadEnvFile()
 
 	clientInstance := client.NewImmuDBClient()
@@ -137,6 +193,18 @@ func main() {
 
 	v1.GET("/transactions", getTransactions(clientInstance))
 	v1.POST("/transaction", addTransaction(clientInstance))
+
+	authorized := v1.Group("/", gin.BasicAuth(gin.Accounts{
+        "user1": "love",
+    }))
+	authorized.POST("/uploadFile", uploadFile)
+	v1.GET("/uploads", listFiles)
+
+	return r
+}
+
+func main()  {
+	r := MakeRouter()
 
 	r.Run(":8081") // listen and serve on 0.0.0.0:8081
 }
