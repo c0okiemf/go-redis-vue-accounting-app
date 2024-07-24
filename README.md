@@ -1,6 +1,6 @@
 # Project Overview
 
-This project is an accounting application designed to help manage financial transactions and track expenses. It provides a user-friendly interface for recording transactions, and uses ImmuDB Vault as the backend database.
+This project is an accounting application designed to help manage financial transactions and track expenses. It provides a user-friendly interface for recording transactions, and uses redis as the simple storage.
 
 ![alt text](image.png)
 
@@ -8,12 +8,11 @@ This project is an accounting application designed to help manage financial tran
 
 To install and run the accounting application, follow these steps:
 
-1. Clone the repository `git clone git@github.com:c0okiemf/immudb-accounting-app.git`.
-2. Navigate to the project directory `cd immudb-accounting-app`.
-3. Copy `./backend/.env.example` to `./backend/.env` and add your ImmuDB Vault api key `IMMUDB_API_KEY=YOUR_KEY`.
-4. Execute the `./start.sh` script, which will start the Docker containers for the application, and wait until the building is finished.
-5. The app is ready to use! Navigate to `http://localhost:8080/` to start using the app.
-6. After you are done, you can run `./cleanup.sh` to remove images, cache, etc. created by docker-compose. WARNING! This will remove other stopped images and containers that you have on your system.
+1. Clone the repository `git clone git@github.com:c0okiemf/go-redis-vue-accounting-app.git`.
+2. Navigate to the project directory `cd go-redis-vue-accounting-app`.
+3. Execute the `./start.sh` script, which will start the Docker containers for the application, and wait until the building is finished.
+4. The app is ready to use! Navigate to `http://localhost:8080/` to start using the app.
+5. After you are done, you can run `./cleanup.sh` to remove images, cache, etc. created by docker-compose. WARNING! This will remove other stopped images and containers that you have on your system.
 
 ## Usage
 
@@ -21,12 +20,11 @@ Once the application is running, you can access it through your web browser at `
 
 ## Tech
 
-The application's backend is built with Go. The frontend is built with Vue. The application uses ImmuDB Vault as the remote database. It uses docker-compose for running the application in a containerized environment, and nginx to serve the frontend.
+The application's backend is built with Go. The frontend is built with Vue. The application uses Redis as storage. It uses docker-compose for running the application in a containerized environment, and nginx to serve the frontend.
 
 ### Backend
 
-The backend is built with Go and uses the Gin framework. The backend is responsible for handling requests from the frontend, and interacting with the ImmuDB Vault database. 
-It features caching to prevent throttling of the ImmuDB Vault API. Cache is flushed upon adding a new transaction. 
+The backend is built with Go and uses the Gin framework. The backend is responsible for handling requests from the frontend, and interacting with the Redis database. 
 Swagger is used to document the API. Once the Docker image is running, you can access the Swagger documentation at `http://localhost:8081/swagger/index.html`.
 The addTransaction request is validated server-side, using gin's built-in validation. Then, the errors object is parsed on the frontend to display the error messages to the user.
 

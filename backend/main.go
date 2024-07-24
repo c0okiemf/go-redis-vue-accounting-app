@@ -40,7 +40,7 @@ type InputValidationErrorResponse struct {
 // @Success 200 {object} TransactionResponse
 // @Failure 404 {object} ErrorResponse
 // @Router /transactions [get]
-func getTransactions(clientInstance *client.ImmuDBClient) func(*gin.Context) {
+func getTransactions(clientInstance *client.RedisClient) func(*gin.Context) {
 	return func(c *gin.Context) {
 		// Get total number of transactions to enable pagination
 		transactionCount := clientInstance.GetTransactionCount()
@@ -93,7 +93,7 @@ func getTransactions(clientInstance *client.ImmuDBClient) func(*gin.Context) {
 // @Failure 400 {object} InputValidationErrorResponse
 // @Failure 500 {object} ErrorResponse
 // @Router /transaction [post]
-func addTransaction(clientInstance *client.ImmuDBClient) func(*gin.Context) {
+func addTransaction(clientInstance *client.RedisClient) func(*gin.Context) {
 	return func(c *gin.Context) {
 		var account types.TransactionInput
 		if err := c.ShouldBindJSON(&account); err != nil {
@@ -116,9 +116,7 @@ func addTransaction(clientInstance *client.ImmuDBClient) func(*gin.Context) {
 }
 
 func main() {
-	helpers.LoadEnvFile()
-
-	clientInstance := client.NewImmuDBClient()
+	clientInstance := client.NewRedisClient()
 
 	r := gin.Default()
 
